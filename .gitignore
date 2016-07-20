@@ -26,3 +26,6 @@ tmtagsHistory
 *.sublime-project
 *.sublime-workspace
 .bundle
+
+# Password File
+resources/accounts.txt
