@@ -3,6 +3,7 @@ from libcloud.compute.types import Provider
 import libcloud.security
 
 from accounts import Accounts
+from clouds.azure import MicrosoftAzure
 from clouds.profitbricks import ProfitBricks
 from clouds.digitalocean import DigitalOcean
 from clouds.aws import AmazonWebServices
@@ -26,3 +27,4 @@ do_test_operations(AmazonWebServices(accounts))
 do_test_operations(DigitalOcean(accounts))
 do_test_operations(GoogleComputeEngine(accounts))
 do_test_operations(ProfitBricks(accounts))
+do_test_operations(MicrosoftAzure(accounts))

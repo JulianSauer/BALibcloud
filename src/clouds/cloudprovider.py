@@ -38,6 +38,9 @@ class CloudProvider(object):
                                             image=kwds['image'],
                                             size=kwds['size'], location=kwds['location'],
                                             ex_create_attr=kwds['options'])
+            elif 'ex_cloud_service_name' in kwds:
+                self.connection.create_node(name="libcloud" + date, image=kwds['image'],
+                                            size=kwds['size'], ex_cloud_service_name=kwds['ex_cloud_service_name'])
             else:
                 self.connection.create_node(name="libcloud" + date, image=kwds['image'],
                                             size=kwds['size'])
@@ -52,7 +55,7 @@ class CloudProvider(object):
             nodes = self.driver.list_nodes(self.connection)
             print(nodes)
         except NotImplementedError:
-            pass
+            print("Cannot list nodes")
 
     def destroy_nodes(self):
         try:
