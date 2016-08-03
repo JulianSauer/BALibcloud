@@ -5,10 +5,8 @@ from clouds.cloudprovider import CloudProvider
 
 
 class GoogleComputeEngine(CloudProvider):
-    def __init__(self, accounts):
-        user = accounts.get_value_for('gceUser')
-        password = accounts.get_value_for('gcePassword')
-        super().__init__(user, password)
+    def __init__(self):
+        super().__init__('gceUser', 'gcePassword')
 
     def init_driver(self):
         self.driver = get_driver(Provider.GCE)

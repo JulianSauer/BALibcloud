@@ -5,10 +5,8 @@ from clouds.cloudprovider import CloudProvider
 
 
 class ProfitBricks(CloudProvider):
-    def __init__(self, accounts):
-        user = accounts.get_value_for("profitBricksUser")
-        password = accounts.get_value_for("profitBricksPassword")
-        super().__init__(user, password)
+    def __init__(self):
+        super().__init__('pbUser', 'pbPassword')
 
     def init_driver(self):
         self.driver = get_driver(Provider.PROFIT_BRICKS)

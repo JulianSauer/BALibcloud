@@ -5,10 +5,8 @@ from clouds.cloudprovider import CloudProvider
 
 
 class DigitalOcean(CloudProvider):
-    def __init__(self, accounts):
-        user = accounts.get_value_for("doUser")
-        password = accounts.get_value_for("doPassword")
-        super().__init__(user, password)
+    def __init__(self):
+        super().__init__('doUser', 'doPassword')
 
     def init_driver(self):
         self.driver = get_driver(Provider.DIGITAL_OCEAN)

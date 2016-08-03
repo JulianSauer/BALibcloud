@@ -6,10 +6,8 @@ from clouds.cloudprovider import CloudProvider
 
 
 class MicrosoftAzure(CloudProvider):
-    def __init__(self, accounts):
-        user = accounts.get_value_for("maUser")
-        password = accounts.get_value_for("maPassword")
-        super().__init__(user, password)
+    def __init__(self):
+        super().__init__('maUser', 'maPassword')
 
     def init_driver(self):
         self.driver = get_driver(Provider.AZURE)
@@ -22,12 +20,12 @@ class MicrosoftAzure(CloudProvider):
         size = [s for s in sizes if 'Small' in s.name][0]
         super().launch_node(image=image, size=size, ex_cloud_service_name='libcloudservice')
 
-    def print(self):
+    def list_nodes(self):
         try:
             nodes = self.driver.list_nodes(self.connection, ex_cloud_service_name='libcloudservice')
             print(nodes)
         except NotImplementedError:
-            print("Cannot list nodes")
+            print('Cannot list nodes')
 
     def destroy_nodes(self):
         try:
@@ -36,6 +34,6 @@ class MicrosoftAzure(CloudProvider):
                 try:
                     self.driver.destroy_node(self.connection, node)
                 except LibcloudError as error:
-                    print("Could not delete a node. " + error.value)
+                    print('Could not delete a node. ' + error.value)
         except NotImplementedError:
-            print("Cannot delete nodes")
+            print('Cannot delete nodes')
