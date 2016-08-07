@@ -18,7 +18,9 @@ class MicrosoftAzure(CloudProvider):
         sizes = self.connection.list_sizes()
         image = [i for i in images if 'Debian' in i.name][0]
         size = [s for s in sizes if 'Small' in s.name][0]
-        super().launch_node(image=image, size=size, ex_cloud_service_name='libcloudservice')
+        self.connection.deploy_node(name=self.get_node_name(), image=image, size=size,
+                                    ex_cloud_service_name='libcloudservice',
+                                    script='/home/julian/Documents/BALibcloud/resources/install.sh')
 
     def list_nodes(self):
         try:
