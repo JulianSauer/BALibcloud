@@ -15,7 +15,7 @@ class DigitalOcean(CloudProvider):
     def create_node(self):
         images = self.connection.list_images()
         sizes = self.connection.list_sizes()
-        image = images[1]  # DigitalOcean images have useless names
+        image = [i for i in images if i.name == '14.04.5 x64'][0]
         size = [s for s in sizes if s.ram == 512][0]
         location = self.connection.list_locations()[0]
         options = {'ssh_keys': []}
