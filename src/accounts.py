@@ -1,4 +1,9 @@
 # Helper class for reading account data from files.
+#
+# Requires the file BALibcloud/resources/accounts.txt
+# with key value pairs in the format:
+# key=value
+
 class Accounts:
     def __init__(self):
         global accounts

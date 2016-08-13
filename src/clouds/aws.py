@@ -1,7 +1,6 @@
 import paramiko
-import time
 from libcloud.compute.providers import get_driver
-from libcloud.compute.types import Provider, NodeState
+from libcloud.compute.types import Provider
 
 from clouds.cloudprovider import CloudProvider
 
@@ -9,10 +8,6 @@ from clouds.cloudprovider import CloudProvider
 class AmazonWebServices(CloudProvider):
     def __init__(self):
         super().__init__('awsUser', 'awsPassword')
-
-    def init_driver(self):
-        self.driver = get_driver(Provider.EC2)
-        self.connection = self.driver(self.user, self.password)
 
     def create_node(self):
         images = self.connection.list_images()
@@ -33,3 +28,7 @@ class AmazonWebServices(CloudProvider):
         sftp = ssh.open_sftp()
         sftp.put('/home/julian/Documents/BALibcloud/resources/install.sh', '/home/ubuntu/install.sh')
         sftp.close()
+
+    def init_driver(self):
+        self.driver = get_driver(Provider.EC2)
+        self.connection = self.driver(self.user, self.password)
