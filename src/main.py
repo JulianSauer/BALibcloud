@@ -8,4 +8,4 @@ AmazonWebServices().do_test_operations()
 DigitalOcean().do_test_operations()
 GoogleComputeEngine().do_test_operations()
 ProfitBricks().do_test_operations()  # Throws an exception
-MicrosoftAzure().do_test_operations() # Throws an exception
+MicrosoftAzure().do_test_operations()

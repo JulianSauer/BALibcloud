@@ -12,7 +12,7 @@ class AmazonWebServices(CloudProvider):
     def create_node(self):
         images = self.connection.list_images()
         sizes = self.connection.list_sizes()
-        image = [i for i in images if i.id == 'ami-2d39803a'][0]
+        image = [i for i in images if 'ubuntu-trusty-14.04' in i.name][0]
         size = [s for s in sizes if s.ram == 512][0]
         node = self.connection.create_node(name=self.get_node_name(), image=image,
                                            size=size, ex_keyname='fog', ex_assign_pulic_ip=True)
