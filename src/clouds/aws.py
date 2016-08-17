@@ -1,5 +1,4 @@
 import paramiko
-from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider
 
 from clouds.cloudprovider import CloudProvider
@@ -7,13 +6,14 @@ from clouds.cloudprovider import CloudProvider
 
 class AmazonWebServices(CloudProvider):
     def __init__(self):
-        super().__init__('awsUser', 'awsPassword')
+        super().__init__('awsUser', 'awsPassword', Provider.EC2)
+        self.connection = self.driver(self.user, self.password)
 
     def create_node(self):
         images = self.connection.list_images()
         sizes = self.connection.list_sizes()
-        image = [i for i in images if 'ubuntu-trusty-14.04' in i.name][0]
-        size = [s for s in sizes if s.ram == 512][0]
+        image = [i for i in images if i.id == 'ami-2d39803a'][0]
+        size = [s for s in sizes if 'Nano Instance' in s.name][0]
         node = self.connection.create_node(name=self.get_node_name(), image=image,
                                            size=size, ex_keyname='fog', ex_assign_pulic_ip=True)
         self.connection.wait_until_running([node])
@@ -28,7 +28,4 @@ class AmazonWebServices(CloudProvider):
         sftp = ssh.open_sftp()
         sftp.put('/home/julian/Documents/BALibcloud/resources/install.sh', '/home/ubuntu/install.sh')
         sftp.close()
-
-    def init_driver(self):
-        self.driver = get_driver(Provider.EC2)
-        self.connection = self.driver(self.user, self.password)
+        ssh.exec_command('bash /home/ubuntu/install.sh')

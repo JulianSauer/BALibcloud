@@ -2,6 +2,7 @@ import abc
 import datetime
 
 import libcloud.security
+from libcloud.compute.providers import get_driver
 
 from accounts import Accounts
 
@@ -15,22 +16,17 @@ class CloudProvider(object):
     driver = None
     connection = None
 
-    def __init__(self, userKey, passwordKey):
+    def __init__(self, userKey, passwordKey, provider):
         accounts = Accounts()
         self.user = accounts.get_value_for(userKey)
         self.password = accounts.get_value_for(passwordKey)
 
-        # libcloud.security.CA_CERTS_PATH = ['C:/Users/jsauer/AppData/Roaming/ca-bundle.crt'] # Windows requires certificates explicitly
-        self.init_driver()
+        # libcloud.security.CA_CERTS_PATH = ['C:/Users/jsauer/AppData/Roaming/ca-bundle.crt']  # Windows requires certificates explicitly
+        self.driver = get_driver(provider)
 
     @abc.abstractmethod
     def create_node(self):
         """Creates a node."""
-        return
-
-    @abc.abstractmethod
-    def init_driver(self):
-        """Initializes the driver."""
         return
 
     def destroy_nodes(self):
