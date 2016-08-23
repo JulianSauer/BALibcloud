@@ -7,5 +7,5 @@ from clouds.profitbricks import ProfitBricks
 AmazonWebServices().do_test_operations()
 DigitalOcean().do_test_operations()
 GoogleComputeEngine().do_test_operations()
-ProfitBricks().do_test_operations()  # Throws an exception
+ProfitBricks().do_test_operations()
 MicrosoftAzure().do_test_operations()

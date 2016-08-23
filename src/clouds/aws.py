@@ -7,19 +7,19 @@ from clouds.cloudprovider import CloudProvider
 class AmazonWebServices(CloudProvider):
     def __init__(self):
         super().__init__('awsUser', 'awsPassword', Provider.EC2)
-        self.connection = self.driver(self.user, self.password)
+        self._connection = self._driver(self._user, self._password)
 
-    def create_node(self):
-        images = self.connection.list_images()
-        sizes = self.connection.list_sizes()
+    def _create_node(self):
+        images = self._connection.list_images()
+        sizes = self._connection.list_sizes()
         image = [i for i in images if i.id == 'ami-2d39803a'][0]
         size = [s for s in sizes if 'Nano Instance' in s.name][0]
-        node = self.connection.create_node(name=self.get_node_name(), image=image,
-                                           size=size, ex_keyname='fog', ex_assign_pulic_ip=True)
-        self.connection.wait_until_running([node])
+        node = self._connection.create_node(name=self._get_node_name(), image=image,
+                                            size=size, ex_keyname='fog', ex_assign_pulic_ip=True)
+        self._connection.wait_until_running([node])
 
-        elastic_ip = self.connection.ex_allocate_address()
-        self.connection.ex_associate_address_with_node(node, elastic_ip)
+        elastic_ip = self._connection.ex_allocate_address()
+        self._connection.ex_associate_address_with_node(node, elastic_ip)
         host = 'ec2-' + elastic_ip.ip.replace('.', '-') + '.compute-1.amazonaws.com'
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
