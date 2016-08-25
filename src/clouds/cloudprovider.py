@@ -24,6 +24,17 @@ class CloudProvider(object):
         # libcloud.security.CA_CERTS_PATH = ['C:/Users/jsauer/AppData/Roaming/ca-bundle.crt']  # Windows requires certificates explicitly
         self._driver = get_driver(provider)
 
+    def do_test_operations(self):
+        self._list_nodes()
+        print('Removing all nodes...')
+        self._destroy_nodes()
+        print('done.\n')
+        self._list_nodes()
+        print('Adding a node...')
+        self._create_node()
+        print('done.\n')
+        self._list_nodes()
+
     @abc.abstractmethod
     def _create_node(self):
         """Creates a node."""
@@ -47,14 +58,3 @@ class CloudProvider(object):
             print(nodes)
         except NotImplementedError:
             print('Cannot list nodes')
-
-    def do_test_operations(self):
-        self._list_nodes()
-        print('Removing all nodes...')
-        self._destroy_nodes()
-        print('done.\n')
-        self._list_nodes()
-        print('Adding a node...')
-        self._create_node()
-        print('done.\n')
-        self._list_nodes()
